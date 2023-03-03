@@ -20,9 +20,9 @@
     <script>
         require(["dijit/Dialog", "dijit/form/TextBox", "dijit/form/Button",
             "dojo/parser","dijit/form/Form","dijit/form/DateTextBox", "dijit/form/ValidationTextBox"]);
-    </script>
-    <!-- -->
+            require(["dojo/_base/xhr"]);
 
+    </script>
 
     <div data-dojo-type="dijit/Dialog" data-dojo-id="bookingDialog" id="bookingDialog" title="Booking"
         encType="multipart/form-data">
@@ -44,14 +44,33 @@
                 alert('Form contains invalid data.  Please correct first');
                 return false;
             }
+
+            dojo.xhr.post({
+                // The URL to request
+                url: "/fcgi/book",
+                // The method that handles the request's successful result
+                // Handle the response any way you'd like!
+                content: { field: JSON.stringify(this.getValues()) },
+
+                load: function(result) {
+                alert("The message is: " + result);
+                },
+                error: function(data){                 
+                    alert("FCGI call failed with: : " + result);
+                }
+
+                });
+                
             return true;
-            // xhr.post( {
-            //      url: 'foo.com/handler',
-            //      content: { field: 'go here' },
-            //      handleAs: 'json'
-            //      load: function(data){ .. },
-            //      error: function(data){ .. }
-            //  });
+
+            /*
+            dojo.xhrPost( {
+                  url: '/fcgi/book',
+                  content: { bookingDialog.getValues() },
+                  handleAs: 'json'
+                  load: function(data){ alert("Form OK with:" + data); },
+                  error: function(data){ alert("form failed"); }
+              });*/
         </script>
 
         <table>
@@ -78,7 +97,7 @@
         </table>
 
         <div class="dijitDialogPaneActionBar">
-            <button data-dojo-type="dijit.form.Button" type=button onClick="console.log(bookingDialog.getValues())">
+            <button data-dojo-type="dijit.form.Button" type=button onClick="console.log(myForm.getValues())">
                 Get Values from form!</button>
             <button data-dojo-type="dijit/form/Button" type="submit">OK</button>
             <button data-dojo-type="dijit.form.Button" type="reset">Reset</button>

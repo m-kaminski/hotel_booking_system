@@ -12,7 +12,7 @@ fi
 
 HOST=$1
 REMOTE_DIR=$2
-BEFE=FE
+BEFE=BEFE
 
 echo PREPARING remote directory $REMOTE_DIR on $HOST 
 
