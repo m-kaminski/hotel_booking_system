@@ -4,10 +4,10 @@
 <head>
     <meta charset="utf-8">
     <title>Tutorial: Hello Dojo!</title>
-    <!-- load claro theme for dojo-->
+    <!-- load nihilo theme for dojo-->
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/nihilo/nihilo.css">
-    <script>dojoConfig = {parseOnLoad: true}</script>
-    <link rel="stylesheet" href="booking.css"/> 
+    <script>dojoConfig = { parseOnLoad: true }</script>
+    <link rel="stylesheet" href="booking.css" />
 </head>
 
 <body class="nihilo">
@@ -15,26 +15,43 @@
     <!-- load Dojo -->
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: true"></script>
     <script src="booking.js"></script>
- 
- 
-	<script>
-        require(["dijit/ConfirmDialog", "dijit/form/TextBox", "dijit/form/Button", "dojo/parser", "dijit/form/DateTextBox" ]);
+
+
+    <script>
+        require(["dijit/Dialog", "dijit/form/TextBox", "dijit/form/Button",
+            "dojo/parser","dijit/form/Form","dijit/form/DateTextBox", "dijit/form/ValidationTextBox"]);
     </script>
-   <!-- -->
-   <div data-dojo-type="dijit/ConfirmDialog" data-dojo-id="bookingDialog" id="bookingDialog" title="Booking">
+    <!-- -->
+
+
+    <div data-dojo-type="dijit/Dialog" data-dojo-id="bookingDialog" id="bookingDialog" title="Booking"
+        encType="multipart/form-data">
+        <form data-dojo-type="dijit/form/Form" data-dojo-id="myForm">
 
         <script type="dojo/on" data-dojo-event="reset">
+            console.log("onReset");
             return confirm('Press OK to reset widget values');
         </script>
+        <script type="dojo/on" data-dojo-event="submit"  data-dojo-args="e">
+            console.log("onSubmit");
 
-        <script type="dojo/on" data-dojo-event="submit">
+            e.preventDefault(); // prevent the default submit
+            //if(!bookingDialog.isValid()){ alert('Please fix fields'); return; }
+
             if(this.validate()){
-                return confirm('Form is valid, press OK to submit');
+                window.alert("Would submit here via dojo/xhr");
             }else{
                 alert('Form contains invalid data.  Please correct first');
                 return false;
             }
             return true;
+            // xhr.post( {
+            //      url: 'foo.com/handler',
+            //      content: { field: 'go here' },
+            //      handleAs: 'json'
+            //      load: function(data){ .. },
+            //      error: function(data){ .. }
+            //  });
         </script>
 
         <table>
@@ -49,20 +66,27 @@
 
             <tr>
                 <td><label for="checkin">Check-in:</label></td>
-                <td><input type="text" name="checkin" id="checkin" 
-                data-dojo-type="dijit/form/DateTextBox"
-                required="true" /></td>
+                <td><input type="text" name="checkin" id="checkin" data-dojo-type="dijit/form/DateTextBox"
+                        required="true" /></td>
             </tr>
             <tr>
-                <td><label for="checkout">Check-in:</label></td>
-                <td><input type="text" name="checkout" id="checkout"
-                data-dojo-type="dijit/form/DateTextBox"
-                required="true" /></td>
+                <td><label for="checkout">Check-out:</label></td>
+                <td><input type="text" name="checkout" id="checkout" data-dojo-type="dijit/form/DateTextBox"
+                        required="true" /></td>
             </tr>
-    
-    </table>
+
+        </table>
+
+        <div class="dijitDialogPaneActionBar">
+            <button data-dojo-type="dijit.form.Button" type=button onClick="console.log(bookingDialog.getValues())">
+                Get Values from form!</button>
+            <button data-dojo-type="dijit/form/Button" type="submit">OK</button>
+            <button data-dojo-type="dijit.form.Button" type="reset">Reset</button>
+        </div>
+    </form>
+
     </div>
-    
+
     <button data-dojo-type="dijit/form/Button" type="button" onClick="bookingDialog.show();">
         Book a room!
     </button>
