@@ -6,7 +6,7 @@
     <title>Tutorial: Hello Dojo!</title>
     <!-- load claro theme for dojo-->
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css">
-        <script>dojoConfig = {parseOnLoad: true}</script>
+    <script>dojoConfig = {parseOnLoad: true}</script>
     <link rel="stylesheet" href="booking.css"/>
 
 </head>
@@ -21,7 +21,8 @@
 	<script>
         require(["dijit/ConfirmDialog", "dijit/form/TextBox", "dijit/form/Button"]);
     </script>
-    <div data-dojo-type="dijit/ConfirmDialog" data-dojo-id="myDialog" title="Name and Address">
+   
+   <div data-dojo-type="dijit/ConfirmDialog" data-dojo-id="myDialog" title="Name and Address">
         <table>
             <tr>
                 <td><label for="name">Name:</label></td>
@@ -35,7 +36,7 @@
     </div>
     
     <button data-dojo-type="dijit/form/Button" type="button" onClick="myDialog.show();">
-        Show me!
+        Book a room!
     </button>
 
 </body>
