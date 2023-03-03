@@ -1,5 +1,4 @@
 
-
-#ConfirmDialog {
-    background: yellow;
+#bookingDialog_underlay {
+    background-color:red;
 }
