@@ -1,5 +1,6 @@
 #!/bin/bash
 # parameters: BE: backend only, FE: frontend only
+cd "$(dirname "$0")"
 
 source ./run_options.sh
 
@@ -9,7 +10,6 @@ then
 else
     SCOPE=$1
 fi
-
 
 cd ..
 
