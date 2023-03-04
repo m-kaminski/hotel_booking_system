@@ -1,0 +1,1 @@
+Service facilitating calculating room prices
