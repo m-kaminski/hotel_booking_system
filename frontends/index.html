@@ -10,7 +10,12 @@
     <h1 id="greeting">Hello</h1>
     <!-- load Dojo -->
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: true"></script>
-    <script src="booking/booking.js"></script>
+    <script>
+        require(["dijit/registry"], function(registry){
+            registry.byId("myDojoView").show();
+        });
+
+    </script>
 </body>
 
 </html>
