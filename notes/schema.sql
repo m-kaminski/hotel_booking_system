@@ -2,11 +2,12 @@
 --- PostgreSQL
 
 --- https://editor.datatables.net/generator/
+CREATE EXTENSION pgcrypto;
 
 CREATE TABLE IF NOT EXISTS "hotel" (
 	"id"                SERIAL,
-	"name"              text,
-	"address"           text,
+	"name"              TEXT,
+	"address"           TEXT,
 	"image"				VARCHAR(1024), -- for header of hotel website
 	PRIMARY KEY( id )
 );
@@ -40,12 +41,12 @@ CREATE TABLE IF NOT EXISTS "building_image" {
 -- a room type --
 CREATE TABLE IF NOT EXISTS "room_type" (
 	"id"                SERIAL,
-	"sqft"              bigint,
-    "name"              text,
-	"description"       text, -- descriptive text (highlight facing, amenities etc)
-    "smoking"           boolean,
-    "beds"              smallint,
-    "disability"        boolean,
+	"sqft"              INTEGER,
+    "name"              TEXT,
+	"description"       TEXT, -- descriptive text (highlight facing, amenities etc)
+    "smoking"           BOOLEAN,
+    "beds"              SMALLINT,
+    "disability"        BOOLEAN,
 	"hotel_fk"          INTEGER REFERENCES "hotel",
 	PRIMARY KEY( id )
 );
@@ -60,27 +61,30 @@ CREATE TABLE IF NOT EXISTS "room_image" {
 
 CREATE TABLE IF NOT EXISTS "room" (
 	"id"                SERIAL,
-	"room_number"       varchar(10),
-	"floor"             bigint,
+	"room_number"       VARCHAR(10),
+	"floor"             INTEGER,
 	"building_fk"       INTEGER REFERENCES "building", -- building room is in
 	"room_type_fk"      INTEGER REFERENCES "room_type",
 	PRIMARY KEY( id )
 );
 
-CREATE TABLE IF NOT EXISTS "guest" (
+CREATE TABLE IF NOT EXISTS "person" (
     "id"                SERIAL,
-    "legal_first_name"  varchar(64),
-    "legal_middle_name" varchar(64),
-    "legal_last_name"   varchar(64),
-    "preferred_name"    varchar(64),
-    "email"             varchar(64),
+    "legal_first_name"  VARCHAR(64),
+    "legal_middle_name" VARCHAR(64),
+    "legal_last_name"   VARCHAR(64),
+    "preferred_name"    VARCHAR(64),
+    "email"             VARCHAR(64) NOT NULL UNIQUE,
+	"phone_num"			 BIGINT,
+	"phone_country_code" SMALLINT,
+	"password"			VARCHAR(70),
 	PRIMARY KEY( id )
 );
 
 CREATE TABLE IF NOT EXISTS "booking" (
 	"id"                SERIAL,
-	"checkin"           timestamp,
-	"checkout"          timestamp,
+	"checkin"           TIMESTAMP,
+	"checkout"          TIMESTAMP,
 	"special_requests"	TEXT,
 	"adults"			SMALLINT,
 	"children"			SMALLINT,

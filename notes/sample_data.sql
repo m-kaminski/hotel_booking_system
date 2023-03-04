@@ -19,9 +19,9 @@ INSERT INTO room_type (sqft, name, description, smoking, beds, disability, hotel
         false, 1, false,
         (SELECT id FROM hotel ORDER BY id DESC LIMIT 1));
 INSERT INTO room (room_number, floor) VALUES 
-    ('100', 1),
-    ('101', 1),
-    ('200', 2);
+        ('100', 1),
+        ('101', 1),
+        ('200', 2);
 UPDATE room SET room_type_fk=(SELECT id FROM room_type ORDER BY id DESC LIMIT 1) WHERE room_type_fk IS NULL;
 
 INSERT INTO room_type (sqft, name, description, smoking, beds, disability, hotel_fk) 
@@ -30,7 +30,7 @@ INSERT INTO room_type (sqft, name, description, smoking, beds, disability, hotel
         true, 1, false,
         (SELECT id FROM hotel ORDER BY id DESC LIMIT 1));
 INSERT INTO room (room_number, floor) VALUES 
-    ('201', 2);
+        ('201', 2);
 UPDATE room SET room_type_fk=(SELECT id FROM room_type ORDER BY id DESC LIMIT 1) WHERE room_type_fk IS NULL;
 
 INSERT INTO room_type (sqft, name, description, smoking, beds, disability, hotel_fk) 
@@ -39,10 +39,10 @@ INSERT INTO room_type (sqft, name, description, smoking, beds, disability, hotel
         false, 1, false,
         (SELECT id FROM hotel ORDER BY id DESC LIMIT 1));
 INSERT INTO room (room_number, floor) VALUES 
-    ('102', 1),
-    ('103', 1),
-    ('104', 1),
-    ('105', 1);
+        ('102', 1),
+        ('103', 1),
+        ('104', 1),
+        ('105', 1);
 UPDATE room SET room_type_fk=(SELECT id FROM room_type ORDER BY id DESC LIMIT 1) WHERE room_type_fk IS NULL;
 
 INSERT INTO room_type (sqft, name, description, smoking, beds, disability, hotel_fk) 
@@ -51,10 +51,10 @@ INSERT INTO room_type (sqft, name, description, smoking, beds, disability, hotel
         true, 2, false,
         (SELECT id FROM hotel ORDER BY id DESC LIMIT 1));
 INSERT INTO room (room_number, floor) VALUES 
-    ('202', 2),
-    ('203', 2),
-    ('204', 2),
-    ('205', 2);
+        ('202', 2),
+        ('203', 2),
+        ('204', 2),
+        ('205', 2);
 UPDATE room SET room_type_fk=(SELECT id FROM room_type ORDER BY id DESC LIMIT 1) WHERE room_type_fk IS NULL;
 UPDATE room SET building_fk=(SELECT id FROM building ORDER BY id DESC LIMIT 1) WHERE building_fk IS NULL;
 
@@ -102,3 +102,12 @@ INSERT INTO booking (checkin, checkout, hotel_fk, room_type_fk)
 --        AS dd WHERE dd 
 --        BETWEEN booking.checkin AND booking.checkout GROUP BY dd, booking.room_type_fk) as bookings_in_time 
 -- GROUP BY bookings_in_time.room_type_fk;
+
+
+INSERT INTO person (legal_first_name, legal_middle_name, legal_last_name, preferred_name, email, password) 
+          VALUES ('John', 'Daniel Edward', 'Torrance', 'Jack', 'jack.torrance@test.com', crypt('johnspassword', gen_salt('bf')));
+
+
+--- Following statements can facilitate authentication; first will return ID, second will not
+-- SELECT id FROM person WHERE email = 'jack.torrance@test.com' AND password = crypt('johnspassword', password);
+-- SELECT id FROM person WHERE email = 'jack.torrance@test.com' AND password = crypt('badpassword', password);

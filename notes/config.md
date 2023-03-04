@@ -10,6 +10,7 @@ sudo dnf -qy module disable postgresql
 
 # Install PostgreSQL:
 sudo dnf install -y postgresql15-server
+sudo dnf install -y postgresql15-contrib
 
 # Optionally initialize the database and enable automatic start:
 sudo /usr/pgsql-15/bin/postgresql-15-setup initdb
