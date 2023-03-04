@@ -11,7 +11,7 @@
 </head>
 
 <body class="nihilo">
-    <h1 id="greeting">Welcome to  </h1>
+    <h1 id="greeting">Welcome to </h1>
     <!-- load Dojo -->
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: true"></script>
     <script src="booking.js"></script>
@@ -34,7 +34,6 @@
             console.log("onSubmit");
 
             e.preventDefault(); // prevent the default submit
-            //if(!bookingDialog.isValid()){ alert('Please fix fields'); return; }
 
             if(this.validate()){
                 window.alert("Would submit here via dojo/xhr");
@@ -60,34 +59,22 @@
                 });
                 
             return true;
-
-            /*
-            dojo.xhrPost( {
-                  url: '/fcgi/book',
-                  content: { bookingDialog.getValues() },
-                  handleAs: 'json'
-                  load: function(data){ alert("Form OK with:" + data); },
-                  error: function(data){ alert("form failed"); }
-              });*/
         </script>
 
+            <table> <tr>
+            <td><label for="checkin">Check-in:</label></td>
+            <td class="formfieldContainer"><input type="text" name="checkin" id="checkin"
+                    data-dojo-type="dijit/form/DateTextBox" required="true" /></td>
 
-            <div><label for="checkin">Check-in:</label></div>
-            <div><input type="text" name="checkin" id="checkin" data-dojo-type="dijit/form/DateTextBox"
-                    required="true" /></div>
-
-            <div><label for="checkout">Check-out:</label></div>
-            <div><input type="text" name="checkout" id="checkout" data-dojo-type="dijit/form/DateTextBox"
-                    required="true" /></div>
+            <td><label for="checkout">Check-out:</label></td>
+            <td class="formfieldContainer"><input type="text" name="checkout" id="checkout"
+                    data-dojo-type="dijit/form/DateTextBox" required="true" /></td>
 
 
-
-            <!--
-            <button data-dojo-type="dijit.form.Button" type=button onClick="console.log(myForm.getValues())">
-                Get Values from form!</button>
-                <button data-dojo-type="dijit.form.Button" type="reset">Reset</button>
-            -->
-            <button data-dojo-type="dijit/form/Button" type="submit">Book a room</button>
+            <td>
+                <button data-dojo-type="dijit/form/Button" type="submit">Book a room</button>
+            </td>
+        </tr></table>
         </form>
     </div>
 

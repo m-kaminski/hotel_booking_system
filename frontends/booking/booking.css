@@ -10,17 +10,26 @@ body {
 }
 #bookingFormContainer {
     width: 100%;
-    background: white;
+    background: rgba(255.0,255.0,255.0,0.7);
     border-top: solid black 1px;
     border-bottom: solid black 1px;
     margin-left: 0;
     margin-right: 0;
+    padding: 0.5em;  
+}
+
+#bookingFormContainer table {
+    margin-left: 5%;
+}
+
+.formfieldContainer {
+    padding-right: 2em;
 }
 
 h1#greeting {
     width: 100%;
-    padding-top: 10%;
-    padding-bottom: 5%;
+    padding-top: 9%;
+    padding-bottom: 4%;
     padding-left: 5%;
     margin-left: 0;
     margin-right: 0;
@@ -30,3 +39,4 @@ h1#greeting {
 				-1px -1px 0 #fff;
     
 }
+
