@@ -42,13 +42,13 @@ NGINX server is located in following directory /etc/nginx/nginx.conf
 
 ```
 http {
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
+  log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
 
-    include             /etc/nginx/mime.types;
-    default_type        application/octet-stream;
-    access_log  /var/log/nginx/access.log  main;
+  include             /etc/nginx/mime.types;
+  default_type        application/octet-stream;
+  access_log  /var/log/nginx/access.log  main;
   server {
     listen 80;
     server_name localhost;
