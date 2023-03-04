@@ -4,7 +4,7 @@ require([
     'dojo/domReady!'
 ], function (dom) {
     var greeting = dom.byId('greeting');
-    greeting.innerHTML += ' from Dojo (AMD)!';
+    greeting.innerHTML += ' the Overlook Hotel!';
 
 
 });

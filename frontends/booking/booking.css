@@ -1,4 +1,32 @@
 
-#bookingDialog_underlay {
-    background-color:red;
+body {
+    background: #aaa;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url('OverlookHotel.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 0;
+    margin: 0;
+}
+#bookingFormContainer {
+    width: 100%;
+    background: white;
+    border-top: solid black 1px;
+    border-bottom: solid black 1px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+h1#greeting {
+    width: 100%;
+    padding-top: 10%;
+    padding-bottom: 5%;
+    padding-left: 5%;
+    margin-left: 0;
+    margin-right: 0;
+	text-shadow: -1px 1px 0 #fff,
+				  1px 1px 0 #fff,
+				 1px -1px 0 #fff,
+				-1px -1px 0 #fff;
+    
 }
