@@ -93,8 +93,7 @@ INSERT INTO booking (checkin, checkout, hotel_fk, room_type_fk)
 
 --- select number of bookings per room type within date range
 
--- SELECT dd, booking.room_type_fk, COUNT(booking.id) FROM booking, generate_series(timestamp '2023-03-01 16:00:00', timestamp '2023-03-011 16:00:00', '1 day'::interval) 
--- AS dd WHERE dd BETWEEN booking.checkin AND booking.checkout GROUP BY dd, booking.room_type_fk;
+--
 -- SELECT bookings_in_time.room_type_fk, MAX(count) FROM
 -- (
 --   SELECT dd, booking.room_type_fk, COUNT(booking.id) 
@@ -104,6 +103,36 @@ INSERT INTO booking (checkin, checkout, hotel_fk, room_type_fk)
 -- GROUP BY bookings_in_time.room_type_fk;
 
 
+-- Select available rooms
+
+
+/* Select list of available rooms given range of dates
+SELECT types.*,
+       rooms.count,
+       booked_rooms.max
+FROM
+  (SELECT room_type_fk,
+          COUNT(*) AS COUNT
+   FROM room
+   GROUP BY room_type_fk) AS rooms
+JOIN room_type types ON rooms.room_type_fk = types.id
+LEFT JOIN
+  (SELECT bookings_in_time.room_type_fk,
+          MAX(COUNT)
+   FROM
+     (SELECT dd,
+             booking.room_type_fk,
+             COUNT(booking.id)
+      FROM booking,
+           generate_series(timestamp '2023-03-01 16:00:00', timestamp '2023-03-03 16:00:00', '1 day'::interval) AS dd
+      WHERE dd BETWEEN booking.checkin AND booking.checkout
+      GROUP BY dd,
+               booking.room_type_fk) AS bookings_in_time
+   GROUP BY bookings_in_time.room_type_fk) AS booked_rooms ON booked_rooms.room_type_fk = types.id
+WHERE booked_rooms.max < rooms.count
+  OR booked_rooms.max IS NULL;
+*/
+
 INSERT INTO person (legal_first_name, legal_middle_name, legal_last_name, preferred_name, email, password) 
           VALUES ('John', 'Daniel Edward', 'Torrance', 'Jack', 'jack.torrance@test.com', crypt('johnspassword', gen_salt('bf')));
 
@@ -111,3 +140,6 @@ INSERT INTO person (legal_first_name, legal_middle_name, legal_last_name, prefer
 --- Following statements can facilitate authentication; first will return ID, second will not
 -- SELECT id FROM person WHERE email = 'jack.torrance@test.com' AND password = crypt('johnspassword', password);
 -- SELECT id FROM person WHERE email = 'jack.torrance@test.com' AND password = crypt('badpassword', password);
+
+
+
