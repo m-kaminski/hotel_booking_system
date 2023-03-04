@@ -41,6 +41,7 @@
                 alert('Form contains invalid data.  Please correct first');
                 return false;
             }
+            console.log(this.getValues());
 
             dojo.xhr.post({
                 // The URL to request
