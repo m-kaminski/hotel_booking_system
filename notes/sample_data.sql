@@ -13,10 +13,11 @@ INSERT INTO building (identifier, name, address, hotel_fk)
 
 -- Add hotel rooms by types
 
+-- Nonsmoking room with single queen bed
 INSERT INTO room_type (sqft, name, description, smoking, beds, disability, hotel_fk) 
         VALUES (300, 'Single queen bed', 
         'Nice north facing room that will accommodate any traveller. Affordable accomodation with premier service of The Overlook Hotel.', 
-        false, 1, false,
+        false, 1, true,
         (SELECT id FROM hotel ORDER BY id DESC LIMIT 1));
 INSERT INTO room (room_number, floor) VALUES 
         ('100', 1),
@@ -24,6 +25,7 @@ INSERT INTO room (room_number, floor) VALUES
         ('200', 2);
 UPDATE room SET room_type_fk=(SELECT id FROM room_type ORDER BY id DESC LIMIT 1) WHERE room_type_fk IS NULL;
 
+-- smoking room with single queen bed
 INSERT INTO room_type (sqft, name, description, smoking, beds, disability, hotel_fk) 
         VALUES (300, 'Single queen bed - for smokers', 
         'Nice north facing room that will accommodate any traveller.', 
@@ -33,6 +35,7 @@ INSERT INTO room (room_number, floor) VALUES
         ('201', 2);
 UPDATE room SET room_type_fk=(SELECT id FROM room_type ORDER BY id DESC LIMIT 1) WHERE room_type_fk IS NULL;
 
+-- nonsmoking room with a single king bed
 INSERT INTO room_type (sqft, name, description, smoking, beds, disability, hotel_fk) 
         VALUES (460, 'Single king bed', 
         'South facing room with bath tub and a large king bed, will provide the most luxurious acommodation available at The Overlook Hotel.', 
@@ -45,6 +48,7 @@ INSERT INTO room (room_number, floor) VALUES
         ('105', 1);
 UPDATE room SET room_type_fk=(SELECT id FROM room_type ORDER BY id DESC LIMIT 1) WHERE room_type_fk IS NULL;
 
+-- nonsmoking room wth double queen beds
 INSERT INTO room_type (sqft, name, description, smoking, beds, disability, hotel_fk) 
         VALUES (520, 'Two queen beds', 
         'South facing room with bath tub, shower and two queen beds, perfect for larger families or couples in complicated relationship.', 
