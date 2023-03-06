@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS "booking" (
     "hotel_fk"          INTEGER REFERENCES "hotel",
     "room_fk"           INTEGER REFERENCES "room", -- bookings refer to room type, unless checked in
     "room_type_fk"      INTEGER REFERENCES "room_type",
-    "guest_fk"          INTEGER REFERENCES "guest",
+    "guest_fk"          INTEGER REFERENCES "person",
     PRIMARY KEY( id )
 );
 
