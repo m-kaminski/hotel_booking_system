@@ -15,24 +15,22 @@ CREATE TABLE IF NOT EXISTS "hotel" (
 CREATE TABLE IF NOT EXISTS "hotel_image" (
     "id"                SERIAL,
     "url"               VARCHAR(1024),
+    "order"             INTEGER, -- how images are ordered
     "hotel_fk"          INTEGER REFERENCES "hotel",
-    "order"             INTEGER,
     PRIMARY KEY( id )
 );
 
 -- add hotel_settings table with following:
-/*
- checkin time (i.e. 15)
-
- checkout time (i.e. 11)
-
- resort fee
- sales tax
- star rating
- base rate
-
-*/
-
+CREATE TABLE IF NOT EXISTS "hotel_settings" {
+    "checkin_time"      TIME, -- i.e. 11am
+    "checkout_time"     TIME, -- i.e. 3pm
+    "base_rate"         NUMERIC(9,2),
+    "sales_tax"         NUMERIC(9,5),
+    "resort_fee"        NUMERIC(9,2),
+    "star_rating"       INT
+    "hotel_fk"          INTEGER REFERENCES "hotel",
+    PRIMARY KEY( id )
+};
 
 -- if a hotel consists of more than one buildings, it's a many-1 relationship -- 
 CREATE TABLE IF NOT EXISTS "building" (
@@ -119,11 +117,10 @@ CREATE TABLE IF NOT EXISTS "booking" (
     "adults"            SMALLINT,
     "children"          SMALLINT,
     "type"              booking_type,
-    "status"            booking_status,
     "hotel_fk"          INTEGER REFERENCES "hotel",
     "room_fk"           INTEGER REFERENCES "room", -- bookings refer to room type, unless checked in
     "room_type_fk"      INTEGER REFERENCES "room_type",
-    "person_fk"          INTEGER REFERENCES "person", -- either a guest or whoever in hotel crew
+    "person_fk"         INTEGER REFERENCES "person", -- either a guest or whoever in hotel crew
     PRIMARY KEY( id )
 );
 -- fee will be a separate table
@@ -132,11 +129,13 @@ CREATE TABLE IF NOT EXISTS "booking_notes" (
     "id"                SERIAL,
     "time"              TIMESTAMP,
     "note"              TEXT,
-    "person_fk"          INTEGER REFERENCES "person",
-    "booking_fk"        INTEGER REFERENCES "booking",
+    "status"            booking_status, -- status change for a booking
+    "person_fk"         INTEGER REFERENCES "person",
+    "booking_fk"        INTEGER REFERENCES "booking" NOT NULL,
     PRIMARY KEY( id )   
 );
 
+-- fees may be assessed against specific person and booking (in most cases, but may be against person without specific booking)
 CREATE TABLE IF NOT EXISTS "booking_fees" ( -- fees asessed
     "id"                SERIAL,
     "time"              TIMESTAMP,
@@ -144,5 +143,7 @@ CREATE TABLE IF NOT EXISTS "booking_fees" ( -- fees asessed
     "amount"            NUMERIC(9,2),
     "currency"          VARCHAR(10),
     "paid"              BOOLEAN,
+    "booking_fk"        INTEGER REFERENCES "booking",
+    "person_fk"         INTEGER REFERENCES "person",
     PRIMARY KEY( id )
 );
