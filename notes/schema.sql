@@ -2,7 +2,7 @@
 --- PostgreSQL
 
 --- https://editor.datatables.net/generator/
-CREATE EXTENSION pgcrypto;
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE TABLE IF NOT EXISTS "hotel" (
     "id"                SERIAL,
@@ -81,6 +81,13 @@ CREATE TABLE IF NOT EXISTS "person" (
     PRIMARY KEY( id )
 );
 
+CREATE TYPE booking_type AS ENUM (
+    'normal', -- commercial booking, for a fee
+    'free',   -- free booking
+    'reward', -- booking for a reward points
+    'special' -- no guest, but room is out of order for some reason
+);
+
 CREATE TABLE IF NOT EXISTS "booking" (
     "id"                SERIAL,
     "checkin"           TIMESTAMP,
@@ -88,10 +95,11 @@ CREATE TABLE IF NOT EXISTS "booking" (
     "special_requests"  TEXT,
     "adults"            SMALLINT,
     "children"          SMALLINT,
+    "type"              booking_type,
     "hotel_fk"          INTEGER REFERENCES "hotel",
     "room_fk"           INTEGER REFERENCES "room", -- bookings refer to room type, unless checked in
     "room_type_fk"      INTEGER REFERENCES "room_type",
     "guest_fk"          INTEGER REFERENCES "person",
     PRIMARY KEY( id )
 );
-
+-- fee will be a separate table
