@@ -20,6 +20,20 @@ CREATE TABLE IF NOT EXISTS "hotel_image" (
     PRIMARY KEY( id )
 );
 
+-- add hotel_settings table with following:
+/*
+ checkin time (i.e. 15)
+
+ checkout time (i.e. 11)
+
+ resort fee
+ sales tax
+ star rating
+ base rate
+
+*/
+
+
 -- if a hotel consists of more than one buildings, it's a many-1 relationship -- 
 CREATE TABLE IF NOT EXISTS "building" (
     "id"                SERIAL,
@@ -88,18 +102,47 @@ CREATE TYPE booking_type AS ENUM (
     'special' -- no guest, but room is out of order for some reason
 );
 
+CREATE TYPE booking_status AS ENUM (
+    'pending', -- not checked in yet, not confirmed
+    'confirmed', -- 
+    'checked_in',   -- 
+    'checked_out', -- 
+    'booted' -- 
+    'canceled'
+);
+
+
 CREATE TABLE IF NOT EXISTS "booking" (
     "id"                SERIAL,
     "checkin"           TIMESTAMP,
     "checkout"          TIMESTAMP,
-    "special_requests"  TEXT,
     "adults"            SMALLINT,
     "children"          SMALLINT,
     "type"              booking_type,
+    "status"            booking_status,
     "hotel_fk"          INTEGER REFERENCES "hotel",
     "room_fk"           INTEGER REFERENCES "room", -- bookings refer to room type, unless checked in
     "room_type_fk"      INTEGER REFERENCES "room_type",
-    "guest_fk"          INTEGER REFERENCES "person",
+    "person_fk"          INTEGER REFERENCES "person", -- either a guest or whoever in hotel crew
     PRIMARY KEY( id )
 );
 -- fee will be a separate table
+
+CREATE TABLE IF NOT EXISTS "booking_notes" (
+    "id"                SERIAL,
+    "time"              TIMESTAMP,
+    "note"              TEXT,
+    "person_fk"          INTEGER REFERENCES "person",
+    "booking_fk"        INTEGER REFERENCES "booking",
+    PRIMARY KEY( id )   
+);
+
+CREATE TABLE IF NOT EXISTS "booking_fees" ( -- fees asessed
+    "id"                SERIAL,
+    "time"              TIMESTAMP,
+    "item"              TEXT, 
+    "amount"            NUMERIC(9,2),
+    "currency"          VARCHAR(10),
+    "paid"              BOOLEAN,
+    PRIMARY KEY( id )
+);
