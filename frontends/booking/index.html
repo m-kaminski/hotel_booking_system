@@ -20,7 +20,7 @@
     <script>
         require(["dijit/Dialog", "dijit/form/TextBox", "dijit/form/Button",
             "dojo/parser", "dijit/form/Form", "dijit/form/DateTextBox", "dijit/form/ValidationTextBox"]);
-        require(["dojo/_base/xhr",  "dojo/domReady!",  "dojo/dom"]);
+        require(["dojo/_base/xhr", "dojo/domReady!", "dojo/dom"]);
 
     </script>
     <div id="bookingFormContainer">
@@ -31,33 +31,50 @@
             return confirm('Press OK to reset widget values');
         </script>
             <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
+
+            var m = document.getElementById("mainContent");
+            m.innerHTML = "Searching for rooms";
+            function addRoom(o) {
+                res = "<div class='roomDesc'>";
+                    res += "<h3>" + o.name + "</h3>";
+                    res += "<p>" + o.description + "</p><ul>";
+                        res += "<li>" + (o.smoking?"smoking":"non-smoking")+ "</li>";
+                if (o.disability)
+                res += "<li>accessible</li>";
+                    res += "<li>" + o.beds + " beds </li>";
+                    res += "</ul></div>";   
+                m.innerHTML += res;                
+            };
+
             console.log("onSubmit");
 
             e.preventDefault(); // prevent the default submit
 
             if(this.validate()){
-                ;//window.alert("Would submit here via dojo/xhr");
+                ; // check date ranges
             }else{
-                alert('Form contains invalid data.  Please correct first');
-                return false;
+                //alert('Form contains invalid data.  Please correct first');
+                //return false;
             }
             console.log(this.getValues());
 
-            dojo.xhr.post({
+            dojo.xhr.get({
                 // The URL to request
-                url: "/fcgi/book",
+                url: "http://localhost:8080/findrooms",
                 // The method that handles the request's successful result
                 // Handle the response any way you'd like!
                 content: { field: JSON.stringify(this.getValues()) },
 
                 load: function(result) {
-                    alert("The message is: " + result);
 
-                    var m = document.getElementById("mainContent");
-                    m.innerHTML = result;
+                    console.log(result);
+
+                    JSON.parse(result).forEach(
+                        (data) => { addRoom(data);}
+                    )
                 },
                 error: function(data){                 
-                    alert("FCGI call failed with: : " + result);
+                    alert("FCGI call failed with: : " + data);
                 }
 
                 });
@@ -65,25 +82,27 @@
             return true;
         </script>
 
-            <table> <tr>
-            <td class="formtextContainer"><label for="checkin">Check-in:</label></td>
-            <td class="formfieldContainer"><input type="text" name="checkin" id="checkin"
-                    data-dojo-type="dijit/form/DateTextBox" required="true" /></td>
+            <table>
+                <tr>
+                    <td class="formtextContainer"><label for="checkin">Check-in:</label></td>
+                    <td class="formfieldContainer"><input type="text" name="checkin" id="checkin"
+                            data-dojo-type="dijit/form/DateTextBox" required="true" /></td>
 
-            <td class="formtextContainer"><label for="checkout">Check-out:</label></td>
-            <td class="formfieldContainer"><input type="text" name="checkout" id="checkout"
-                    data-dojo-type="dijit/form/DateTextBox" required="true" /></td>
+                    <td class="formtextContainer"><label for="checkout">Check-out:</label></td>
+                    <td class="formfieldContainer"><input type="text" name="checkout" id="checkout"
+                            data-dojo-type="dijit/form/DateTextBox" required="true" /></td>
 
 
-            <td>
-                <button data-dojo-type="dijit/form/Button" type="submit">Book a room</button>
-            </td>
-        </tr></table>
+                    <td>
+                        <button data-dojo-type="dijit/form/Button" type="submit">Book a room</button>
+                    </td>
+                </tr>
+            </table>
         </form>
     </div>
     <div id="mainContentContainer">
         <div id="mainContent">
-        The Overlook Hotel provides excellent acomodation in Colorado Rockies. 
+            The Overlook Hotel provides excellent acomodation in Colorado Rockies.
         </div>
 
         <div id="footer">

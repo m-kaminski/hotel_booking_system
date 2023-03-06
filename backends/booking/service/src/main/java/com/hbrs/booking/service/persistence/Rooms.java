@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.jdbc.core.JdbcTemplate;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -21,7 +19,7 @@ public class Rooms {
 
         // auto close connection
         try {
-            conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/hbrs", "LOGIN", "PASSWORD");
+            conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/hbrs", "DB LOGIN", "DB PASSWORD");
             if (conn != null) {
                 System.out.println("Connected to the database!");
             } else {
