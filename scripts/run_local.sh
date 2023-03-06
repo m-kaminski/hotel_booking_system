@@ -36,10 +36,6 @@ if [ $SCOPE = FE ]
 then
     echo "Skipping backend"
 else
-    cd backends/booking/fcgi-cpp
-    make
-
-
-    echo "RUNNING fcgi-main"
-    spawn-fcgi -p $FCGI_PORT -n fcgi-main
+    cd backends/booking/service
+    JAVA_HOME=$JAVA_HOME_DIR ./mvnw spring-boot:run
 fi
