@@ -22,12 +22,14 @@ CREATE TABLE IF NOT EXISTS "hotel_image" (
 
 -- add hotel_settings table with following:
 CREATE TABLE IF NOT EXISTS "hotel_settings" {
-    "checkin_time"      TIME, -- i.e. 11am
-    "checkout_time"     TIME, -- i.e. 3pm
+    "id"                SERIAL,
+    "checkin_time"      TIME WITH TIME ZONE, -- i.e. 11am
+    "checkout_time"     TIME WITH TIME ZONE, -- i.e. 3pm
     "base_rate"         NUMERIC(9,2),
     "sales_tax"         NUMERIC(9,5),
     "resort_fee"        NUMERIC(9,2),
     "star_rating"       INT
+    "timezone_name"     VARCHAR(32), -- per pg_timezone_names
     "hotel_fk"          INTEGER REFERENCES "hotel",
     PRIMARY KEY( id )
 };
@@ -112,8 +114,8 @@ CREATE TYPE booking_status AS ENUM (
 
 CREATE TABLE IF NOT EXISTS "booking" (
     "id"                SERIAL,
-    "checkin"           TIMESTAMP,
-    "checkout"          TIMESTAMP,
+    "checkin"           TIMESTAMP WITH TIME ZONE,
+    "checkout"          TIMESTAMP WITH TIME ZONE,
     "adults"            SMALLINT,
     "children"          SMALLINT,
     "type"              booking_type,
@@ -127,7 +129,7 @@ CREATE TABLE IF NOT EXISTS "booking" (
 
 CREATE TABLE IF NOT EXISTS "booking_notes" (
     "id"                SERIAL,
-    "time"              TIMESTAMP,
+    "time"              TIMESTAMP WITH TIME ZONE,
     "note"              TEXT,
     "status"            booking_status, -- status change for a booking
     "person_fk"         INTEGER REFERENCES "person",
@@ -138,7 +140,7 @@ CREATE TABLE IF NOT EXISTS "booking_notes" (
 -- fees may be assessed against specific person and booking (in most cases, but may be against person without specific booking)
 CREATE TABLE IF NOT EXISTS "booking_fees" ( -- fees asessed
     "id"                SERIAL,
-    "time"              TIMESTAMP,
+    "time"              TIMESTAMP WITH TIME ZONE,
     "item"              TEXT, 
     "amount"            NUMERIC(9,2),
     "currency"          VARCHAR(10),
