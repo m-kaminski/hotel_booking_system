@@ -4,17 +4,9 @@ import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
 import com.hbrs.booking.service.RoomType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import com.hbrs.booking.service.persistence.DataSource;
 
 public class Rooms {
-    //private Connection conn;
 
     public Rooms() {
 
@@ -25,7 +17,6 @@ public class Rooms {
                 + "(SELECT room_type_fk, COUNT(*) AS count FROM room GROUP BY room_type_fk) as R "
                 + "JOIN room_type T ON R.room_type_fk = T.id";
         List<RoomType> response = new ArrayList<>();
-
 
         try (PreparedStatement preparedStatement = DataSource.getConnection().prepareStatement(SQL_SELECT)) {
 

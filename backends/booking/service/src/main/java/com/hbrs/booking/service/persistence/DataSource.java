@@ -10,7 +10,6 @@ public class DataSource {
 
     private static HikariConfig config = new HikariConfig( "src/main/resources/datasource.properties" );
     private static HikariDataSource ds;
-///            conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/hbrs", "DB LOGIN", "DB PASSWORD");
 
     static {
         ds = new HikariDataSource( config );
