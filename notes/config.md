@@ -1,4 +1,4 @@
-1. Setting up PostgreSQL
+# 1. Setting up PostgreSQL
 
 Following steps are required on RHEL/CENTOS to install PostgreSQL:
 
@@ -19,11 +19,13 @@ sudo systemctl start postgresql-15
 
 
 when accessing PostgreSQL command prompt, configuration is needed as follows:
+```
 sudo -u postgres psql
-# CREATE USER hbrs WITH PASSWORD 'your preferred password' CREATEDB;
-# CREATE DATABASE hbrs;
-# GRANT ALL ON SCHEMA public TO hbrs;
-# ALTER DATABASE hbrs OWNER TO hbrs;
+ CREATE USER hbrs WITH PASSWORD 'your preferred password' CREATEDB;
+ CREATE DATABASE hbrs;
+ GRANT ALL ON SCHEMA public TO hbrs;
+ ALTER DATABASE hbrs OWNER TO hbrs;
+```
 
 if you prefer to log-in with password, it is also recommended to set password for postgresql user
 w/ ALTER USER command
@@ -33,7 +35,16 @@ In file:
 local   all             all                                     peer
 peer will need to be replaced for md5 or scram-sha-256 to utilize password login
 
-2. Setting up NGINX http server
+Set datasource :
+
+```
+cp example.datasource.properties  ../backends/booking/service/src/main/resources/datasource.properties
+```
+and set your username, db and password in datasource.properties file
+
+# 2. Setting up NGINX http server
+
+
 sudo yum install nginx 
 sudo firewall-cmd --permanent --zone=public --add-service=http
 sudo firewall-cmd --permanent --zone=public --add-service=https
@@ -61,8 +72,9 @@ http {
 }
 ```
 
-3. Setting up Java environment
+# 3. Setting up Java environment
 
+```
 ### Linux 64-bit ###
 wget https://download.java.net/java/GA/jdk17.0.2/dfd4a8d0985749f896bed50d7138ee7f/8/GPL/openjdk-17.0.2_linux-x64_bin.tar.gz
 tar xvf openjdk-17.0.2_linux-x64_bin.tar.gz
@@ -75,8 +87,9 @@ tar xvf openjdk-17.0.2_linux-aarch64_bin.tar.gz
 
 sudo mv jdk-17.0.2/ /opt/jdk-17/
 
-$EDIROT ~/.bashrc
+$EDITOR ~/.bashrc
 export JAVA_HOME=/opt/jdk-17
 export PATH=$PATH:$JAVA_HOME/bin 
+``
 
 $ source ~/.bashrc

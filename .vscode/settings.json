@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "ldb-hbrs",
+            "database": "hbrs",
+            "username": "hbrs"
+        }
+    ],
+    "java.format.settings.url": ".vscode/java-formatter.xml"
+}
