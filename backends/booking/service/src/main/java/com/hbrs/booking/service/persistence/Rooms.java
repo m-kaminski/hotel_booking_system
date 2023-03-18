@@ -11,26 +11,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import com.hbrs.booking.service.persistence.DataSource;
 
 public class Rooms {
-    private Connection conn;
+    //private Connection conn;
 
     public Rooms() {
 
-        // auto close connection
-        try {
-            conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/hbrs", "DB LOGIN", "DB PASSWORD");
-            if (conn != null) {
-                System.out.println("Connected to the database!");
-            } else {
-                System.out.println("Failed to make connection!");
-            }
-
-        } catch (SQLException e) {
-            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public List<RoomType> getRooms() {
@@ -39,7 +26,8 @@ public class Rooms {
                 + "JOIN room_type T ON R.room_type_fk = T.id";
         List<RoomType> response = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = conn.prepareStatement(SQL_SELECT)) {
+
+        try (PreparedStatement preparedStatement = DataSource.getConnection().prepareStatement(SQL_SELECT)) {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
