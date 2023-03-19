@@ -31,7 +31,7 @@ public class Rooms {
                 boolean smoking = resultSet.getBoolean("smoking");
                 int beds = resultSet.getInt("beds");
                 boolean disability = resultSet.getBoolean("disability");
-                response.add(new RoomType(id, sqft, name, description, smoking, beds, disability));
+                response.add(new RoomType(id, sqft, name, description, smoking, beds, disability, 0, 0, 0));
 
             }
 
@@ -85,7 +85,9 @@ public class Rooms {
                 boolean smoking = resultSet.getBoolean("smoking");
                 int beds = resultSet.getInt("beds");
                 boolean disability = resultSet.getBoolean("disability");
-                response.add(new RoomType(id, sqft, name, description, smoking, beds, disability));
+                int count = resultSet.getInt("count");
+                int max = resultSet.getInt("max");
+                response.add(new RoomType(id, sqft, name, description, smoking, beds, disability, count, max, 0));
 
             }
 
