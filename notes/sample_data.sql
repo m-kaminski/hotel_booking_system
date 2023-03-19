@@ -68,7 +68,11 @@ INSERT INTO room (room_number, floor, room_type_fk, building_fk) VALUES
 -- PERSONS
 
 INSERT INTO person (id, legal_first_name, legal_middle_name, legal_last_name, preferred_name, email, password) 
-          VALUES (1, 'John', 'Daniel', 'Torrance', 'Jack', 'jack.torrance@test.com', crypt('johnspassword', gen_salt('bf')));
+          VALUES (1, 'John', 'Daniel', 'Torrance', 'Jack', 'jack.torrance@test.com', crypt('johnspassword', gen_salt('bf'))),
+                 (2, 'Danny', null, 'Torrance', null, 'danny.torrance@test.com', crypt('dannypassword', gen_salt('bf'))),
+                 (3, 'Wendy', null, 'Torrance', null, 'wendy.torrance@test.com', crypt('wendypassword', gen_salt('bf'))),
+                 (4, 'Dick', null, 'Hallorann', null, 'dick.hallorann@test.com', crypt('dickpassword', gen_salt('bf'))),
+                 (5, 'Delbert', null, 'Grady', null, 'delbertgrady@test.com', crypt('delbertpassword', gen_salt('bf')));
 
 
 --- Following statements can facilitate authentication; first will return ID, second will not
