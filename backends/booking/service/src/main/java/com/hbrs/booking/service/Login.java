@@ -20,9 +20,11 @@ public class Login {
 		persons = new Persons();
 	}
 
-
 	@GetMapping("/getlogin")
-	public Optional<Person>  process(HttpSession session) {
+	public Optional<Person>  getlogin(HttpSession session) {           
+        
+        System.out.println("finding user info");
+
         try {
             long loginId = (long)session.getAttribute("USER_LOGIN_ID");
             return Optional.of(persons.getPersonById(loginId));
@@ -32,12 +34,13 @@ public class Login {
 	}
 
 	@GetMapping("/login")
-	public Optional<Person> persistMessage(@RequestParam("email") String loginEmail, 
+	public Optional<Person> login(@RequestParam("email") String loginEmail, 
                             @RequestParam("password") String loginPassword, 
                             HttpServletRequest request) {
         Person person = persons.validatePassword(loginEmail, loginPassword);
         System.out.println("LOGIN");
         if (person != null) {
+		    request.getSession().setAttribute("USER_LOGIN_ID", person.id());
             System.out.println("Saving user ID of " + String.valueOf(person.id()));
             return Optional.of(person);
         } else {
@@ -46,11 +49,9 @@ public class Login {
 	}
 
 	@GetMapping("/logout")
-	public String destroySession(HttpServletRequest request) {
+	public String logout(HttpServletRequest request) {
 		request.getSession().invalidate();
 		return "logged out";
 	}
-
-
 }
 
