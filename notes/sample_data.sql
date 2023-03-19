@@ -2,14 +2,29 @@
 
 
 --- Define hotel
-
 INSERT INTO hotel (id, name, image, address) 
         VALUES (1, 'The Overlook Hotel', 'OverlookHotel.jpg', 
         '333 E Wonderview Ave, Estes Park, CO 80517');
 INSERT INTO building (id, identifier, name, address, hotel_fk)
          VALUES (1, 'The main building of the hotel', 'Main',  
          '333 E Wonderview Ave, Estes Park, CO 80517', 1);
+INSERT INTO hotel_settings(id, checkin_time, checkout_time, base_rate, sales_tax, resort_fee, star_rating, timezone_name, hotel_fk)
+        VALUES(1, '11:00', '16:00', 0.0025, 0.029, 9.70, 3, 'America/Denver', 1);
 
+
+-- add hotel_settings table with following:
+CREATE TABLE IF NOT EXISTS "hotel_settings" {
+    "id"                SERIAL,
+    "checkin_time"      TIME WITH TIME ZONE, -- i.e. 11am
+    "checkout_time"     TIME WITH TIME ZONE, -- i.e. 3pm
+    "base_rate"         NUMERIC(9,2),
+    "sales_tax"         NUMERIC(9,5),
+    "resort_fee"        NUMERIC(9,2),
+    "star_rating"       INT
+    "timezone_name"     VARCHAR(32), -- per pg_timezone_names
+    "hotel_fk"          INTEGER REFERENCES "hotel",
+    PRIMARY KEY( id )
+};         
 -- Add hotel rooms by types
 
 -- Nonsmoking room with single queen bed

@@ -21,18 +21,18 @@ CREATE TABLE IF NOT EXISTS "hotel_image" (
 );
 
 -- add hotel_settings table with following:
-CREATE TABLE IF NOT EXISTS "hotel_settings" {
+CREATE TABLE IF NOT EXISTS "hotel_settings" (
     "id"                SERIAL,
     "checkin_time"      TIME WITH TIME ZONE, -- i.e. 11am
     "checkout_time"     TIME WITH TIME ZONE, -- i.e. 3pm
     "base_rate"         NUMERIC(9,2),
     "sales_tax"         NUMERIC(9,5),
     "resort_fee"        NUMERIC(9,2),
-    "star_rating"       INT
+    "star_rating"       INT,
     "timezone_name"     VARCHAR(32), -- per pg_timezone_names
     "hotel_fk"          INTEGER REFERENCES "hotel",
     PRIMARY KEY( id )
-};
+);
 
 -- if a hotel consists of more than one buildings, it's a many-1 relationship -- 
 CREATE TABLE IF NOT EXISTS "building" (

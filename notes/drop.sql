@@ -6,3 +6,4 @@ DROP TABLE building_image CASCADE;
 DROP TABLE building CASCADE;
 DROP TABLE hotel_image CASCADE;
 DROP TABLE hotel CASCADE;
+DROP TABLE hotel_settings CASCADE;
