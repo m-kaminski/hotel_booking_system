@@ -9,7 +9,7 @@ INSERT INTO building (id, identifier, name, address, hotel_fk)
          VALUES (1, 'The main building of the hotel', 'Main',  
          '333 E Wonderview Ave, Estes Park, CO 80517', 1);
 INSERT INTO hotel_settings(id, checkin_time, checkout_time, base_rate, sales_tax, resort_fee, star_rating, timezone_name, hotel_fk)
-        VALUES(1, '11:00', '16:00', 0.0025, 0.029, 9.70, 3, 'America/Denver', 1);
+        VALUES(1, '11:00', '16:00', 0.25, 0.029, 9.70, 3, 'America/Denver', 1);
 
 
 -- add hotel_settings table with following:

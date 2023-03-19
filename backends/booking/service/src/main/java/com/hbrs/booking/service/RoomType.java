@@ -12,4 +12,4 @@ public record RoomType(
     int count, 
     int max, 
     float price) 
-    { }d
+    { }

@@ -10,7 +10,8 @@ function submitBookingSearch() {
         res += "<li>" + (o.smoking ? "smoking" : "non-smoking") + "</li>";
         if (o.disability)
             res += "<li>accessible</li>";
-        res += "<li>" + o.beds + " beds </li>";
+            res += "<li>" + o.beds + " beds </li>";
+            res += "<li>base rate: $" + o.price + " </li>";
         res += "</ul></div>";
         m.innerHTML += res;
     };

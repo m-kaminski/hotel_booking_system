@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS "hotel_settings" (
     "id"                SERIAL,
     "checkin_time"      TIME WITH TIME ZONE, -- i.e. 11am
     "checkout_time"     TIME WITH TIME ZONE, -- i.e. 3pm
-    "base_rate"         NUMERIC(9,2),
+    "base_rate"         NUMERIC(10,5),
     "sales_tax"         NUMERIC(9,5),
     "resort_fee"        NUMERIC(9,2),
     "star_rating"       INT,
