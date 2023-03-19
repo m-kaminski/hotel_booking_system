@@ -70,7 +70,6 @@ public class Rooms {
         + "   GROUP BY bookings_in_time.room_type_fk) AS booked_rooms ON booked_rooms.room_type_fk = types.id\n"
         + "WHERE booked_rooms.max < rooms.count\n"
         + "  OR booked_rooms.max IS NULL;\n";
-        System.out.println(SQL_SELECT);
         List<RoomType> response = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = DataSource.getConnection().prepareStatement(SQL_SELECT)) {

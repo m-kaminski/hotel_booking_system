@@ -23,8 +23,6 @@ public class Login {
 	@GetMapping("/getlogin")
 	public Optional<Person>  getlogin(HttpSession session) {           
         
-        System.out.println("finding user info");
-
         try {
             long loginId = (long)session.getAttribute("USER_LOGIN_ID");
             return Optional.of(persons.getPersonById(loginId));
@@ -38,7 +36,6 @@ public class Login {
                             @RequestParam("password") String loginPassword, 
                             HttpServletRequest request) {
         Person person = persons.validatePassword(loginEmail, loginPassword);
-        System.out.println("LOGIN");
         if (person != null) {
 		    request.getSession().setAttribute("USER_LOGIN_ID", person.id());
             System.out.println("Saving user ID of " + String.valueOf(person.id()));
