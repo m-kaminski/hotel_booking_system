@@ -1,27 +1,53 @@
-
 body {
     background: #aaa;
     font-family: Arial, Helvetica, sans-serif;
     background-image: url('OverlookHotel.jpg');
-    background-size: cover;
+    background-size: 100% auto;
     background-repeat: no-repeat;
     padding: 0;
     margin: 0;
     font-size: 1rem;
 }
+
+#mainNavigationContainer,
 #bookingFormContainer {
     width: 100%;
-    background: rgba(255.0,255.0,255.0,0.7);
+    background: rgba(255.0, 255.0, 255.0, 0.7);
     border-top: solid black 1px;
     border-bottom: solid black 1px;
     margin-left: 0;
     margin-right: 0;
-    padding: 0.5em; 
+    padding: 0.5em;
     padding-left: 5%;
     padding-right: 5%;
 }
 
+@media (min-width: 1023px) {
 
+    #loggedIn {
+        width: 100%;
+    }
+
+    #loggedOut {
+        width: 100%;
+    }
+
+    #loggedOut table {
+        position: absolute;
+        right: 0;
+
+    }
+
+    #navigationOptions {
+        text-align: left;
+        width: 50%;
+    }
+
+    #greeting {
+        position: absolute;
+        right: 0;
+    }
+}
 
 /* Mobile-friendly version: form fields aren't handled as table but instead
  * as blocks one below the other */
@@ -29,13 +55,19 @@ body {
     body {
         font-size: 1.7rem;
     }
-    #bookingFormContainer tr {
-        display: block;
+
+    #mainNavigationContainer input {
+        font-size: 1.7rem;
     }
+
+    #mainNavigationContainer tr,
+    #mainNavigationContainer td,
+    #bookingFormContainer tr,
     #bookingFormContainer td {
         display: block;
     }
 }
+
 .formfieldContainer {
     padding-right: 2em;
 }
@@ -44,27 +76,27 @@ body {
     white-space: nowrap;
 }
 
-h1#greeting {
+h1#mainheader {
     width: 100%;
     padding-top: 9%;
     padding-bottom: 4%;
     padding-left: 5%;
     margin-left: 0;
     margin-right: 0;
-	text-shadow: -1px 1px 0 #fff,
-				  1px 1px 0 #fff,
-				 1px -1px 0 #fff,
-				-1px -1px 0 #fff;
-    
+    text-shadow: -1px 1px 0 #fff,
+        1px 1px 0 #fff,
+        1px -1px 0 #fff,
+        -1px -1px 0 #fff;
+
 }
 
 #mainContentContainer {
     margin-top: 2em;
 
     width: 100%;
-    background: rgba(255.0,255.0,255.0,0.7);
-    background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(255.0,255.0,255.0,0.7) 100%);
-    border-top: solid black 1px;    
+    background: rgba(255.0, 255.0, 255.0, 0.7);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255.0, 255.0, 255.0, 0.7) 100%);
+    border-top: solid black 1px;
     padding-left: 5%;
     padding-right: 5%;
     height: auto;
@@ -73,18 +105,18 @@ h1#greeting {
 #mainContent {
     margin-top: 1em;
     margin-bottom: 2em;
-    width:90%;
+    width: 90%;
 }
 
 #footer {
     margin-top: 1em;
     margin-bottom: 2em;
     text-align: center;
-    width:90%;
+    width: 90%;
 }
 
 .roomDesc {
-    background: rgba(255.0,255.0,255.0,0.7);
+    background: rgba(255.0, 255.0, 255.0, 0.7);
     border: solid #999 1px;
     padding: 1em;
     border-radius: 0.75em;

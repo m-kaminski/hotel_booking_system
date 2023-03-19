@@ -3,7 +3,7 @@ require([
     
     'dojo/domReady!'
 ], function (dom) {
-    var greeting = dom.byId('greeting');
+    var greeting = dom.byId('mainheader');
     greeting.innerHTML += ' the Overlook Hotel!';
 });
 

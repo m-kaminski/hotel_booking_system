@@ -10,12 +10,49 @@
     <link rel="stylesheet" href="booking.css" />
 </head>
 
-<body class="nihilo">
-    <h1 id="greeting">Welcome to </h1>
+<body class="nihilo" onload="checkLogin();">
     <!-- load Dojo -->
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: true"></script>
     <script src="booking.js"></script>
     <script src="onbooking.js"></script>
+    <script src="login.js"></script>
+
+    <div id="mainNavigationContainer">
+        <div id="loggedOut">
+            <form data-dojo-type="dijit/form/Form" data-dojo-id="loginForm">
+                <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
+                e.preventDefault(); // prevent the default submit
+                return login();
+            </script>
+                <table>
+                    <tr>
+                        <td class="formtextContainer"><label for="email">Email:</label></td>
+                        <td class="formfieldContainer"><input type="text" name="checkin" id="email" required="true" />
+                        </td>
+
+                        <td class="formtextContainer"><label for="password">Password:</label></td>
+                        <td class="formfieldContainer"><input type="password" name="checkout" id="password"
+                                required="true" /></td>
+                        <td>
+                            <button data-dojo-type="dijit/form/Button" type="submit">Log In</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="loggedIn">
+            <div id="greeting">
+                Greetings, <strong id="usernameGreeting"> UserName </strong>
+                <button data-dojo-type="dijit/form/Button" onclick="logout();">Logout</button>
+            </div>
+            <div id="navigationOptions">
+                <button data-dojo-type="dijit/form/Button" onclick="myBookings();">Past Bookings</button>
+                <button data-dojo-type="dijit/form/Button" onclick="myBookings();">Upcoming Bookings</button>
+            </div>
+        </div>
+    </div>
+
+    <h1 id="mainheader">Welcome to </h1>
 
 
     <script>
@@ -59,13 +96,3 @@
 </body>
 
 </html>
-
-
-<!--
-
-    https://dojotoolkit.org/documentation/tutorials/1.10/ajax/
-    https://dojotoolkit.org/reference-guide/1.10/dijit/form/DateTextBox.html#dijit-form-datetextbox
-   https://dojotoolkit.org/reference-guide/1.10/dijit/Calendar.html#dijit-calendar
-   https://dojotoolkit.org/reference-guide/1.10/dijit/ConfirmDialog.html#dijit-confirmdialog
-
--->
