@@ -1,2 +1,3 @@
 backends/booking/service/src/main/resources/datasource.properties
 .vscode/*
+.vscode/settings.json
