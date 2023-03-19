@@ -13,6 +13,13 @@
 <body class="nihilo" onload="checkLogin();">
     <!-- load Dojo -->
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: true"></script>
+
+    <script>
+        require(["dijit/Dialog", "dijit/form/TextBox", "dijit/form/Button",
+            "dojo/parser", "dijit/form/Form", "dijit/form/DateTextBox", "dijit/form/ValidationTextBox"]);
+        require(["dojo/_base/xhr", "dojo/domReady!", "dojo/dom"]);
+
+    </script>
     <script src="booking.js"></script>
     <script src="onbooking.js"></script>
     <script src="login.js"></script>
@@ -55,12 +62,6 @@
     <h1 id="mainheader">Welcome to </h1>
 
 
-    <script>
-        require(["dijit/Dialog", "dijit/form/TextBox", "dijit/form/Button",
-            "dojo/parser", "dijit/form/Form", "dijit/form/DateTextBox", "dijit/form/ValidationTextBox"]);
-        require(["dojo/_base/xhr", "dojo/domReady!", "dojo/dom"]);
-
-    </script>
     <div id="bookingFormContainer">
         <form data-dojo-type="dijit/form/Form" data-dojo-id="bookingSearchForm">
             <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">

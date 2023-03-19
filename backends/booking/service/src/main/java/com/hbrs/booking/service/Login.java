@@ -1,10 +1,6 @@
 package com.hbrs.booking.service;
 
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
-import java.util.Date;
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,30 +22,33 @@ public class Login {
 
 
 	@GetMapping("/getlogin")
-	public Long process(HttpSession session) {
-        Long loginId = (Long)session.getAttribute("USER_LOGIN_ID");
-
-		if (loginId == null) {
-			loginId = -1L;
-		}
-
-        return loginId;
+	public Optional<Person>  process(HttpSession session) {
+        try {
+            long loginId = (long)session.getAttribute("USER_LOGIN_ID");
+            return Optional.of(persons.getPersonById(loginId));
+        } catch (NullPointerException e) { // no attribute
+            return Optional.empty();
+        }
 	}
 
 	@GetMapping("/login")
-	public Long persistMessage(@RequestParam("email") String loginEmail, @RequestParam("password") String loginPassword, HttpServletRequest request) {
-
-
-        Long loginId = persons.validatePassword(loginEmail, loginPassword);
-       
-		request.getSession().setAttribute("USER_LOGIN_ID", loginId);
-		return loginId;
+	public Optional<Person> persistMessage(@RequestParam("email") String loginEmail, 
+                            @RequestParam("password") String loginPassword, 
+                            HttpServletRequest request) {
+        Person person = persons.validatePassword(loginEmail, loginPassword);
+        System.out.println("LOGIN");
+        if (person != null) {
+            System.out.println("Saving user ID of " + String.valueOf(person.id()));
+            return Optional.of(person);
+        } else {
+            return Optional.empty();
+        }
 	}
 
 	@GetMapping("/logout")
 	public String destroySession(HttpServletRequest request) {
 		request.getSession().invalidate();
-		return "redirect:/getlogin";
+		return "logged out";
 	}
 
 
