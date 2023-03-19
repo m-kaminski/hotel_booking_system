@@ -38,7 +38,6 @@ public class FindRooms {
 		checkin = requestCheckin;
 		checkout = requestCheckout;
 		System.out.println("Finding rooms from " + requestCheckin + " to " + requestCheckout);
-
 		return rooms.getRoomsAva(getDay(checkin), getDay(checkout));
 	}
 }

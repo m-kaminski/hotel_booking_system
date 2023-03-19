@@ -6,16 +6,16 @@ function showLoggedIn() {
 function showLoggedOut() {
     document.getElementById("loggedIn").style.display = 'none';
     document.getElementById("loggedOut").style.display = 'block';
-
 }
+
 function login() {
     dojo.xhr.get({
-        // The URL to request
         url: "http://localhost:8080/login",
-        // The method that handles the request's successful result
-        // Handle the response any way you'd like!
-        content: {email:document.getElementById("email").value,
-                  password: document.getElementById("password").value},
+        content: {
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value
+        },
+        withCredentials: true,
         load: function (result) {
             login_info = JSON.parse(result);
 
@@ -23,13 +23,12 @@ function login() {
             if (login_info == null) {
                 alert("Bad login or password or other info : " + data);
             } else {
-                console.log("LOGIN");
                 showLoggedIn();
                 document.getElementById("usernameGreeting").innerHTML = login_info.legal_first_name;
                 console.log(login_info);
             }
         },
-        
+
         error: function (data) {
             alert("FCGI call failed with: : " + data);
         }
@@ -39,49 +38,43 @@ function login() {
 }
 
 function logout() {
+    console.log("logging out");
+
     dojo.xhr.get({
-        // The URL to request
         url: "http://localhost:8080/logout",
-        content: { },
-
-
+        content: {},
+        withCredentials: true,
         load: function (result) {
-                showLoggedOut();
+            showLoggedOut();
         },
         error: function (data) {
             alert("FCGI call failed with: : " + data);
         }
-
     });
 }
 
 function checkLogin() {
-
-
     dojo.xhr.get({
-        // The URL to request
         url: "http://localhost:8080/getlogin",
-        content: { },
-
+        content: {},
+        withCredentials: true,
         load: function (result) {
             login_info = JSON.parse(result);
 
             console.log(result);
             if (login_info == null) {
-                console.log("LOGOUT");
+                console.log("logged out");
                 showLoggedOut();
             } else {
-                console.log("LOGIN");
+                console.log("logged in");
                 showLoggedIn();
                 document.getElementById("usernameGreeting").innerHTML = login_info.legal_first_name;
                 console.log(login_info);
             }
         },
-
         error: function (data) {
             alert("FCGI call failed with: : " + data);
         }
-
     });
 
 }
