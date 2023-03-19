@@ -43,7 +43,7 @@ public class FindRooms {
 		checkin = requestCheckin;
 		checkout = requestCheckout;
 		
-		System.out.println("Finding rooms from " + requestCheckin + " to " + requestCheckout);
+		//System.out.println("Finding rooms from " + requestCheckin + " to " + requestCheckout);
 		List<RoomType> roomList = rooms.getRoomsAva(getDay(checkin), getDay(checkout));
 		HotelSettingsType settings = hotelSettings.getHotelSettings(1);
 		return roomList.stream()

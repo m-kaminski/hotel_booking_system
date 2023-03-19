@@ -10,8 +10,11 @@ public class HotelSettings {
         HotelSettingsType response = null;
 
 
-        try (PreparedStatement preparedStatement = DataSource.getConnection().prepareStatement(SQL_SELECT)) {
 
+        Connection conn = null;
+        try {
+            conn = DataSource.getConnection();
+            PreparedStatement preparedStatement = conn.prepareStatement(SQL_SELECT);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -32,7 +35,15 @@ public class HotelSettings {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return response;
+
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.err.format("Can't close connection: SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+                return response;
     }
 
 }
