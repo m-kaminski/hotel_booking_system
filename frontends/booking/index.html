@@ -15,6 +15,7 @@
     <!-- load Dojo -->
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: true"></script>
     <script src="booking.js"></script>
+    <script src="onbooking.js"></script>
 
 
     <script>
@@ -24,69 +25,11 @@
 
     </script>
     <div id="bookingFormContainer">
-        <form data-dojo-type="dijit/form/Form" data-dojo-id="bookingForm">
-
-            <script type="dojo/on" data-dojo-event="reset">
-            console.log("onReset");
-            return confirm('Press OK to reset widget values');
-        </script>
+        <form data-dojo-type="dijit/form/Form" data-dojo-id="bookingSearchForm">
             <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
-
-            var m = document.getElementById("mainContent");
-            m.innerHTML = "Searching for rooms";
-            function addRoom(o) {
-                res = "<div class='roomDesc'>";
-                    res += "<h3>" + o.name + "</h3>";
-                    res += "<p>" + o.description + "</p><ul>";
-                        res += "<li>" + (o.smoking?"smoking":"non-smoking")+ "</li>";
-                if (o.disability)
-                res += "<li>accessible</li>";
-                    res += "<li>" + o.beds + " beds </li>";
-                    res += "</ul></div>";   
-                m.innerHTML += res;                
-            };
-
-            console.log("onSubmit");
-            isoCheckin = dojo.date.stamp.toISOString(dijit.byId("checkin").get("value"));
-            isoCheckout = dojo.date.stamp.toISOString(dijit.byId("checkout").get("value"));
-            e.preventDefault(); // prevent the default submit
-
-            if(this.validate()){
-                if (isoCheckin >= isoCheckout) {
-                    alert('Checkout after checkin needeed.  Please correct first');
-                    return false;
-                }
-            }else{
-                alert('Form contains invalid data or data is missing.  Please correct first');
-                return false;
-            }
-            console.log(this.getValues());
-
-            dojo.xhr.get({
-                // The URL to request
-                url: "http://localhost:8080/findrooms",
-                // The method that handles the request's successful result
-                // Handle the response any way you'd like!
-                content: { checkin: isoCheckin,
-                            checkout: isoCheckout},
-
-                load: function(result) {
-
-                    console.log(result);
-
-                    JSON.parse(result).forEach(
-                        (data) => { addRoom(data);}
-                    )
-                },
-                error: function(data){                 
-                    alert("FCGI call failed with: : " + data);
-                }
-
-                });
-                
-            return true;
-        </script>
-
+                e.preventDefault(); // prevent the default submit
+                return submitBookingSearch();
+            </script>
             <table>
                 <tr>
                     <td class="formtextContainer"><label for="checkin">Check-in:</label></td>
@@ -96,8 +39,6 @@
                     <td class="formtextContainer"><label for="checkout">Check-out:</label></td>
                     <td class="formfieldContainer"><input type="text" name="checkout" id="checkout"
                             data-dojo-type="dijit/form/DateTextBox" required="true" /></td>
-
-
                     <td>
                         <button data-dojo-type="dijit/form/Button" type="submit">Book a room</button>
                     </td>
