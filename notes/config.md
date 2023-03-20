@@ -93,3 +93,29 @@ export PATH=$PATH:$JAVA_HOME/bin
 ``
 
 $ source ~/.bashrc
+```
+
+# 3. Testing
+
+To check behavior of booking backend, you can i.e. use wget command like this:
+```
+wget "http://localhost:8080/findrooms?checkin=2023-03-01T00:00:00-06:00&checkout=2023-03-24T00:00:00-05:00" -O- -o-
+
+wget "http://localhost:8080/bookrooms?checkin=2023-03-01T00:00:00-06:00&checkout=2023-03-24T00:00:00-05:00&room_type=2" -O- -o- 
+
+```
+(or just use browser UI)
+
+
+Sample commands to run performance tests
+
+```
+for j in `seq 10` ; do time for i in `seq 10000` ;\
+do wget "http://localhost:8080/findrooms?checkin=2023-03-01T00:00:00-06:00&checkout=2023-03-24T00:00:00-05:00" -O- -o- >/dev/null 2>/dev/null ; done & done
+
+
+for j in `seq 10` ; do time for i in `seq 10000` ; \
+do wget "http://localhost:8080/bookrooms?checkin=2023-03-01T00:00:00-06:00&checkout=2023-03-24T00:00:00-05:00&room_type=2" -O- -o- >/dev/null 2>/dev/null ; done & done
+
+```
+
