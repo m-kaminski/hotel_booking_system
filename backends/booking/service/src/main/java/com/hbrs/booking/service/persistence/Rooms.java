@@ -55,14 +55,41 @@ public class Rooms {
     }
 
     public void bookRoom(Timestamp checkin, Timestamp checkout, int guest, int roomType) {
-        String SQL_SELECT = "INSERT INTO booking (checkin, checkout, type, guest_fk, hotel_fk, room_type_fk) "
-                + "VALUES" + "('" + checkin.toString() + "', '" + checkout.toString() + "', 'normal', "
-                + String.valueOf(guest) + ", 1, " + String.valueOf(roomType) + "); ";
+        String SQL_SELECT = "BEGIN WORK;\n"
+                + "LOCK TABLE booking IN EXCLUSIVE MODE;\n"
+        
+                + "INSERT INTO booking (checkin, checkout, type, guest_fk, hotel_fk, room_type_fk) "
+                + "SELECT '" + checkin.toString() + "', '" + checkout.toString() + "', 'normal', 1, 1, "+String.valueOf(roomType)+"\n"
+                + "WHERE EXISTS(\n"
+                    + "SELECT \n"
+                    + "       rooms.room_type_fk,\n"
+                    + "       rooms.count,\n"
+                    + "       booked_rooms.max\n"
+                    + "FROM\n"
+                    + "(SELECT room_type_fk,\n"
+                    + "          COUNT(*) AS COUNT\n"
+                    + "   FROM room WHERE room_type_fk="+String.valueOf(roomType)+"\n"
+                    + "   GROUP BY room_type_fk) AS rooms \n"
+                    + "LEFT JOIN\n"
+                    + "  (SELECT bookings_in_time.room_type_fk,\n"
+                    + "          MAX(COUNT)\n"
+                    + "   FROM\n"
+                    + "     (SELECT dd,\n"
+                    + "             booking.room_type_fk,\n"
+                    + "             COUNT(booking.id)\n"
+                    + "      FROM booking,\n"
+                    + "           generate_series(timestamp '" + checkin.toString() + "', timestamp '" + checkout.toString() + "', '1 day'::interval) AS dd\n"
+                    + "      WHERE dd BETWEEN booking.checkin AND booking.checkout \n"
+                    + "      GROUP BY dd,\n"
+                    + "               booking.room_type_fk) AS bookings_in_time\n"
+                    + "   GROUP BY bookings_in_time.room_type_fk) AS booked_rooms ON booked_rooms.room_type_fk = rooms.room_type_fk\n"
+                    + "   WHERE rooms.count > booked_rooms.max OR booked_rooms.max IS NULL);\n"
+                + "COMMIT WORK;";               
         Connection conn = null;
         try {
             conn = DataSource.getConnection();
             PreparedStatement preparedStatement = conn.prepareStatement(SQL_SELECT);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());

@@ -161,4 +161,38 @@ WHERE booked_rooms.max < rooms.count
   OR booked_rooms.max IS NULL;
 */
 
+/*
+Example table locking update transaction:
 
+
+BEGIN WORK;
+LOCK TABLE booking IN EXCLUSIVE MODE;
+INSERT INTO booking (checkin, checkout, type, guest_fk, hotel_fk, room_type_fk) 
+SELECT 'Wed Mar 01 2023 16:00:00', 'Sat Mar 04 2023 11:00:00', 'normal', 1, 1, 4
+WHERE EXISTS(
+SELECT 
+       rooms.room_type_fk,
+       rooms.count,
+       booked_rooms.max
+FROM
+(SELECT room_type_fk,
+          COUNT(*) AS COUNT
+   FROM room WHERE room_type_fk=4
+   GROUP BY room_type_fk) AS rooms 
+LEFT JOIN
+  (SELECT bookings_in_time.room_type_fk,
+          MAX(COUNT)
+   FROM
+     (SELECT dd,
+             booking.room_type_fk,
+             COUNT(booking.id)
+      FROM booking,
+           generate_series(timestamp '2023-03-01 16:00:00', timestamp '2023-03-03 16:00:00', '1 day'::interval) AS dd
+      WHERE dd BETWEEN booking.checkin AND booking.checkout 
+      GROUP BY dd,
+               booking.room_type_fk) AS bookings_in_time
+   GROUP BY bookings_in_time.room_type_fk) AS booked_rooms ON booked_rooms.room_type_fk = rooms.room_type_fk
+   WHERE rooms.count > booked_rooms.max OR booked_rooms.max IS NULL);
+COMMIT WORK;
+
+*/
