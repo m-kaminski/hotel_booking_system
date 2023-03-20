@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS "room_type" (
     "smoking"           BOOLEAN,
     "beds"              SMALLINT,
     "disability"        BOOLEAN,
+    "base_rate"         NUMERIC(10,5),
     "hotel_fk"          INTEGER REFERENCES "hotel",
     PRIMARY KEY( id )
 );
@@ -82,6 +83,7 @@ CREATE TABLE IF NOT EXISTS "room" (
     PRIMARY KEY( id )
 );
 
+-- guest but maybe also member of hotel team
 CREATE TABLE IF NOT EXISTS "person" (
     "id"                SERIAL,
     "legal_first_name"  VARCHAR(64),
@@ -95,6 +97,7 @@ CREATE TABLE IF NOT EXISTS "person" (
     PRIMARY KEY( id )
 );
 
+-- some enums to describe state of booking
 CREATE TYPE booking_type AS ENUM (
     'normal', -- commercial booking, for a fee
     'free',   -- free booking
@@ -104,14 +107,15 @@ CREATE TYPE booking_type AS ENUM (
 
 CREATE TYPE booking_status AS ENUM (
     'pending', -- not checked in yet, not confirmed
-    'confirmed', -- 
-    'checked_in',   -- 
+    'confirmed', -- booking confirmed, paid for
+    'checked_in',   -- checked in
     'checked_out', -- 
-    'booted' -- 
-    'canceled'
+    'booted' -- guest booted from a hotel due to some bad behavior or lack of payment
+    'canceled' -- booking is canceled
+    --- other states to add
 );
 
-
+-- before checkin booking typically refers to a generic room type rather than specific room number
 CREATE TABLE IF NOT EXISTS "booking" (
     "id"                SERIAL,
     "checkin"           TIMESTAMP WITH TIME ZONE,
@@ -125,7 +129,7 @@ CREATE TABLE IF NOT EXISTS "booking" (
     "person_fk"         INTEGER REFERENCES "person", -- either a guest or whoever in hotel crew
     PRIMARY KEY( id )
 );
--- fee will be a separate table
+
 
 CREATE TABLE IF NOT EXISTS "booking_notes" (
     "id"                SERIAL,
